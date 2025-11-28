@@ -36,6 +36,38 @@ export const separator: Electron.MenuItemConstructorOptions = {
   type: 'separator',
 }
 
+function buildDevOneStopShopMenu(): Electron.MenuItemConstructorOptions {
+  return {
+    label: 'Dev One Stop Shop',
+    submenu: [
+      {
+        label: 'Open Jira (Browser)',
+        click() {
+          shell.openExternal('https://jira.atlassian.com').catch(err => log.error('Failed opening Jira', err))
+        },
+      },
+      {
+        label: 'Open Outlook (Desktop)',
+        click() {
+          shell.openExternal('mailto:').catch(err => log.error('Failed opening Outlook', err))
+        },
+      },
+      {
+        label: 'Open Microsoft teams (Desktop)',
+        click() {
+          shell.openExternal('msteams:').catch(err => log.error('Failed opening Microsoft Teams', err))
+        },
+      },
+      {
+        label: 'Open Azure pipelines (Browser)',
+        click() {
+          shell.openExternal('https://dev.azure.com/').catch(err => log.error('Failed opening Azure Pipelines', err))
+        },
+      },
+    ],
+  }
+}
+
 export function buildDefaultMenu({
   selectedExternalEditor,
   selectedShell,
@@ -567,6 +599,8 @@ export function buildDefaultMenu({
   ]
 
   helpItems.push(...buildTestMenu())
+
+  template.push(buildDevOneStopShopMenu())
 
   if (__DARWIN__) {
     template.push({
